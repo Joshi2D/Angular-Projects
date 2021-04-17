@@ -1,3 +1,6 @@
+<table>
+  <tr  class="columns"> 
+    <td  class="column is-four-fifths">
 <form #flashForm="ngForm">
 	<h1 class="is-size-3">{{editing ? 'Edit': 'Add New'}} Flash Card</h1>
 	<div class="field">
@@ -6,15 +9,48 @@
       <input required class="input" type="text" name="question" #questionEl="ngModel" [ngClass]="{'is-danger': questionEl.invalid && !questionEl.pristine}" [(ngModel)]="flash.question">
     </div>
   </div>
+
+    
+  
   <div class="field">
-	<label for="" class="label">Answer</label>
+    <span class="control" style ="display: inline-flex; align-items: center;">
+      <input  [disabled]="flashForm.invalid" type="radio"  value ={{flash.answer1}} name="answer" #answerE1="ngModel" [ngClass]="{'is-danger': answerE1.invalid && !answerE1.pristine}" [(ngModel)]="flash.answer">
+      <label for="" class="label" style="margin-left:10px;">Option 1 </label></span>
 	<div class="control">
-    <input required class="input" type="text" name="answer" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer">
+    <input required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1">
   </div>
-</div>
+  </div>
+  
 
+ 
+  <div class="field">
+    <span class="control" style ="display: inline-flex; align-items: center;">
+      <input   [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer2}} name="answer" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer">
+      <label for="" class="label" style="margin-left:10px;">Option 2 </label></span>
+    <div class="control">
+      <input required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
+    </div>
+  </div>
 
-
+  
+  <div class="field">
+    <span class="control" style ="display: inline-flex; align-items: center;">
+      <input   [disabled]="flashForm.invalid" type="radio" value ={{flash.answer3}} name="answer" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer">
+      <label for="" class="label" style="margin-left:10px;">Option 3 </label></span>
+    <div class="control">
+      <input required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
+    </div>
+  </div>
+ 
+  
+  <div class="field">
+    <span class="control" style ="display: inline-flex; align-items: center;">
+      <input  [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer4}} name="answer" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer">
+      <label for="" class="label" style="margin-left:10px;">Option 4 </label></span>
+    <div class="control">
+      <input required class="input" type="text" name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer4">
+    </div>
+  </div>
   <button *ngIf="editing; else submitBtn" class="button is-primary" type="submit" (click)="handleUpdate()" [disabled]="flashForm.invalid">Update</button>
   <ng-template #submitBtn>
 <button  class="button is-primary" type="submit" (click)="handleSubmit()" [disabled]="flashForm.invalid">Submit</button>
@@ -26,6 +62,19 @@
 </form>
 
 <button class="button">Reset</button>
+<br>
+<br>
+</td>
+<td class="column">
+  <div class="score">
+    <app-score
+    [totalCount] = "maxScore"
+    [yourCount] = "yourScore"
+    ></app-score>
+  </div>
+</td>
+</tr>
+</table>
 
 <div class="flashs" *ngIf="flashs$ | async as flashs">
   <app-flash
@@ -34,6 +83,6 @@
     (toggleCard)="handleToggleCard($event)"
     (delete)="handleDelete($event)"
     (edit)="handleEdit($event)"
-    (rememberedChange)="handleRememberedChange($event)"
+    (rememberedChange)="handleRememberedChange($event)"    
   ></app-flash>
 </div>

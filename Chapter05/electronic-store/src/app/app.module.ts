@@ -29,7 +29,7 @@ const matDesignModules = [ MatToolbarModule, MatButtonModule, MatSidenavModule, 
     BrowserAnimationsModule,
     LayoutModule,
     ...matDesignModules,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled:environment.production }),
     HttpClientModule
   ],
   providers: [],

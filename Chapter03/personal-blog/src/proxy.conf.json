@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "http://demo5683935.mockable.io/posts",
+    "secure": false,
+    "changeOrigin": true,
+     "logLevel": "debug",
+     "pathRewrite": {"^/proxy" : ""}
+  }
+}

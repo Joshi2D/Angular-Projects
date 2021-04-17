@@ -20,3 +20,10 @@
 .incorrect .card-header-title {
     color: white;
 }
+
+.content table td, .content table th {
+  border: 1px solid #dbdbdb;
+  border-width: 0 0 0px;
+  padding: .5em .75em;
+  vertical-align: top;
+}

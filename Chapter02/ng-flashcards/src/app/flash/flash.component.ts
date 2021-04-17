@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { count } from 'rxjs/operators';
 import { IFlash } from './../flash.model';
+import { FlashService } from './../flash.service'
 
 @Component({
   selector: 'app-flash',
@@ -11,6 +13,10 @@ export class FlashComponent {
   @Input() flash: IFlash = {
     question: '',
     answer: '',
+    answer1: '',
+    answer2: '',
+    answer3: '',
+    answer4: '',
     id: 0,
     show: false,
   };
@@ -19,9 +25,12 @@ export class FlashComponent {
   @Output() edit = new EventEmitter();
   @Output() rememberedChange = new EventEmitter();
 
-  onToggleCard() {
-    this.toggleCard.emit(this.flash.id);
-  }
+ 
+
+   onToggleCard() {
+     this.toggleCard.emit(this.flash.id);
+   }
+ 
 
   deleteFlash() {
     this.delete.emit(this.flash.id);
@@ -31,18 +40,24 @@ export class FlashComponent {
     this.edit.emit(this.flash.id);
   }
 
-  markCorrect() {
+  markCorrect(value1, value2) {
+    if(value1 == value2 ){
     this.rememberedChange.emit({
       id: this.flash.id,
       flag: 'correct'
     });
+    
   }
-
-  markIncorrect() {
+  else{
     this.rememberedChange.emit({
       id: this.flash.id,
       flag: 'incorrect'
     });
   }
+  }
+
+  
+
+
 
 }

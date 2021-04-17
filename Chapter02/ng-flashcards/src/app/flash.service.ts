@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IFlash } from './flash.model';
 
@@ -9,33 +9,20 @@ function getRandomNumber() {
 @Injectable()
 export class FlashService {
 
-  flashs: IFlash[] = [{
-    question: 'Question 1',
-    answer: 'Answer 1',
-    show: false,
-    id: getRandomNumber(),
-  }, {
-    question: 'Question 2',
-    answer: 'Answer 2',
-    show: false,
-    id: getRandomNumber(),
-  }, {
-    question: 'Question 3',
-    answer: 'Answer 3',
-    show: false,
-    id: getRandomNumber(),
-  }];
+  flashs: IFlash[] = [];
 
   flashs$ = new BehaviorSubject<IFlash[]>(this.flashs);
 
   constructor() { }
 
-  addFlash(flash: {question: string, answer: string}) {
+  
+
+  addFlash(flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string}) {
     this.flashs = [
       ...this.flashs, {
         ...flash,
         show: false,
-        id: getRandomNumber(),
+        id: getRandomNumber(),    
       }
     ];
     this.flashs$.next(this.flashs);
@@ -98,4 +85,6 @@ export class FlashService {
     return this.flashs[index];
   }
 
+
+ 
 }

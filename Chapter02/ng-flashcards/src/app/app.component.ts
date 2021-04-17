@@ -1,7 +1,8 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FlashService } from './flash.service';
 import { tap } from 'rxjs/operators';
+import {ScoreComponent} from './score/score.component'
 
 @Component({
   selector: 'app-root',
@@ -12,13 +13,19 @@ export class AppComponent {
   @ViewChild('flashForm', { static: false }) flashForm: NgForm;
   editing = false;
   editingId;
+  maxScore = 0;
+  yourScore = 0;
   flash = {
     question: '',
-    answer: ''
+    answer: '',
+    answer1: '',
+    answer2: '',
+    answer3: '',
+    answer4: ''
   };
   flashs$;
   flashs;
-  constructor(private flashService: FlashService) {
+  constructor(private flashService: FlashService ) {
     this.flashs$ = this.flashService.flashs$;
   }
 
@@ -28,6 +35,7 @@ export class AppComponent {
 
   handleSubmit(): void {
     this.flashService.addFlash(this.flash);
+    this.maxScore = this.maxScore + 5;
     this.handleClear();
   }
 
@@ -35,7 +43,12 @@ export class AppComponent {
     this.flash = {
       question: '',
       answer: '',
+      answer1: '',
+      answer2: '',
+      answer3: '',
+      answer4: '',
     };
+   
     this.flashForm.reset();
   }
 
@@ -66,5 +79,9 @@ export class AppComponent {
 
   handleRememberedChange({ id, flag }) {
     this.flashService.rememberedChange(id, flag);
+    if(flag == 'correct')
+    this.yourScore = this.yourScore + 5;
+    else
+    this.yourScore = this.yourScore - 2;
   }
 }

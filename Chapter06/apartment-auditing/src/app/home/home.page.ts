@@ -3,7 +3,7 @@ import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-root',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
