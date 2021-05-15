@@ -1,8 +1,6 @@
 import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { FlashService } from './flash.service';
-import { tap } from 'rxjs/operators';
-import {ScoreComponent} from './score/score.component'
 
 @Component({
   selector: 'app-root',
@@ -10,7 +8,7 @@ import {ScoreComponent} from './score/score.component'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  @ViewChild('flashForm', { static: false }) flashForm: NgForm;
+  @ViewChild('flashForm', { static: false })  flashForm: NgForm;
   editing = false;
   editingId;
   maxScore = 0;
@@ -21,7 +19,9 @@ export class AppComponent {
     answer1: '',
     answer2: '',
     answer3: '',
-    answer4: ''
+    answer4: '',
+    _id: null,
+    show: false
   };
   flashs$;
   flashs;
@@ -30,13 +30,17 @@ export class AppComponent {
   }
 
   trackByFlashId(index, flash) {
-    return flash.id;
+    return flash._id;
   }
-
-  handleSubmit(): void {
+  handleGet(){
+    this.flashService.getFlashes(this.flashs);
+  }
+  handleSubmit() {
+    //this.flashService.addFlash(this.flash);
     this.flashService.addFlash(this.flash);
     this.maxScore = this.maxScore + 5;
     this.handleClear();
+    this.handleGet();
   }
 
   handleClear() {
@@ -47,17 +51,22 @@ export class AppComponent {
       answer2: '',
       answer3: '',
       answer4: '',
-    };
-   
+      _id: null,
+      show: false
+    }; 
     this.flashForm.reset();
+    this.flashService.emptyFlash();
+    this.maxScore = 0;
+    this.yourScore = 0;
   }
 
   handleToggleCard(id) {
     this.flashService.toggleFlash(id);
   }
 
-  handleDelete(id) {
-    this.flashService.deleteFlash(id);
+  handleDelete(_id) {
+    this.editingId = _id;
+    this.flashService.deleteFlash(this.editingId, this.flashService.getFlash(_id));
   }
 
   handleEdit(id) {
@@ -68,13 +77,31 @@ export class AppComponent {
 
   handleUpdate() {
     this.flashService.updateFlash(this.editingId, this.flash);
-    this.handleCancel();
+   
   }
 
   handleCancel() {
     this.editing = false;
     this.editingId = undefined;
     this.handleClear();
+  }
+
+  handleReset(){
+   this.flashService.deleteDB();
+   this.flash = {
+    question: '',
+    answer: '',
+    answer1: '',
+    answer2: '',
+    answer3: '',
+    answer4: '',
+    _id: null,
+    show: false
+  }; 
+  this.flashForm.reset();
+  this.flashService.emptyFlash();
+  this.maxScore = 0;
+  this.yourScore = 0;
   }
 
   handleRememberedChange({ id, flag }) {
@@ -85,3 +112,7 @@ export class AppComponent {
     this.yourScore = this.yourScore - 2;
   }
 }
+function foreach(any: any, arg1: boolean) {
+  throw new Error('Function not implemented.');
+}
+

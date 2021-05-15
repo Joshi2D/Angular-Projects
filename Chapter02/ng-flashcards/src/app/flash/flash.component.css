@@ -8,6 +8,11 @@
   cursor: pointer;
 }
 
+.timer{
+    margin-top: 10px;
+    color: darkblue;
+}
+
 .card-header.correct {
     background: #51be51;
 }
@@ -26,4 +31,12 @@
   border-width: 0 0 0px;
   padding: .5em .75em;
   vertical-align: top;
+}
+
+.button.correct {
+    background: #51be51;
+}
+
+.button.incorrect {
+    background: red;
 }

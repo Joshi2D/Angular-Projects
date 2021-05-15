@@ -6,11 +6,12 @@ import { AppComponent } from './app.component';
 import { FlashComponent } from './flash/flash.component';
 import { FlashService } from './flash.service';
 import { ScoreComponent } from './score/score.component';
-
+import {HttpClientModule} from '@angular/common/http'
+import { WebAdminService } from './webAdmin.service';
 @NgModule({
-  imports:      [ BrowserModule, FormsModule ],
+  imports:      [ BrowserModule, FormsModule, HttpClientModule ],
   declarations: [ AppComponent, FlashComponent, ScoreComponent ],
   bootstrap:    [ AppComponent],
-  providers: [FlashService]
+  providers: [FlashService, WebAdminService]
 })
 export class AppModule { }
