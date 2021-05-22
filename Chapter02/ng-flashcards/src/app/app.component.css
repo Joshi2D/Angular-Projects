@@ -1,6 +1,6 @@
 form {
   margin: 10px;
-  width: 300px
+  width: 314px
 }
 
 .flashs {
@@ -9,6 +9,10 @@ form {
 }
 
 .clear-btn {
+  margin-left: 6.5px;
+}
+
+.flash-btn {
   margin-left: 7px;
 }
 

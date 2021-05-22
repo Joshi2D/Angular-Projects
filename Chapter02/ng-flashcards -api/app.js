@@ -43,8 +43,8 @@ app.post('/flashes',(req, res) => {
         answer2  : flash.answer2,
         answer3  : flash.answer3,
         answer4  : flash.answer4,
-        _id       : flas._id,
-        show     : flas.show 
+        _id       : flash._id,
+        show     : flash.show 
 
     });
     
