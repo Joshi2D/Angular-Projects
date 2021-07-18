@@ -1,6 +1,6 @@
 <table>
   <tr  class="columns"> 
-    <td  class="column is-four-fifths">
+    <td  class="column is-one-thirds">
 <form #flashForm="ngForm">
 	<h1 class="is-size-3">{{editing ? 'Edit': 'Add New'}} Flash Card</h1>
 	<div class="field">
@@ -57,16 +57,29 @@
   </ng-template>
   <button *ngIf="editing; else clearBtn" class="button clear-btn" (click)="handleCancel()">Cancel</button>
   <ng-template #clearBtn>
-    <button class="button clear-btn" (click)="handleClear()">Clear</button>
+    <button *ngIf="Clear; else Flashes" class="button clear-btn" (click)="handleClear()">Clear</button>
   </ng-template>
 
   <button class="button clear-btn" (click)="handleReset()">Reset</button>
+  <ng-template #Flashes>
   <button class="button flash-btn" (click)="handleGet()">Flashes</button>
+   </ng-template>
 </form>
-
-
-<br>
-<br>
+</td>
+<td class="column">
+  <div class="segments">
+    <div class="country" *ngIf="countries$ | async as countries">
+      <select class="segments" [(ngModel)] = "countries">
+        <option *ngFor="let country of countries" [value] = "country.countryCode">
+         {{country.countryDetail.countryName}}
+        </option>
+        </select>
+      </div>
+    <input type="radio" class="clear-btn" (click)="handleOption('Capital')" value = "Capital" name="queType" > Capital
+    <input type="radio" class="clear-btn" (click)="handleOption('India')" value = "India" name="queType" > India
+    <input type="radio" class="clear-btn" (click)="handleOption('Srilanka')" value = "Srilanka"  name="queType"> Srilanka
+    <input type="radio" class="clear-btn" (click)="handleOption('All')" value = "China" name="queType"> ALL
+  </div>
 </td>
 <td class="column">
   <div class="score">
@@ -78,7 +91,8 @@
 </td>
 </tr>
 </table>
-
+<br>
+<br>
 <div class="flashs" *ngIf="flashs$ | async as flashs">
   <app-flash
     *ngFor="let flash of flashs; trackBy trackByFlashId"

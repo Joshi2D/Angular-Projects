@@ -18,8 +18,8 @@ export class FlashService {
   constructor(private WebAdminService : WebAdminService) {}
 
   
- getFlashes(flashs : IFlash){
-   return this.WebAdminService.get('flashes').subscribe((response : any) =>{
+ getFlashes(flashs : IFlash, option : string){
+   return this.WebAdminService.get(`flashes/${option}`).subscribe((response : any) =>{
     response.forEach(element => { 
       this.flashs.push(element);
     });

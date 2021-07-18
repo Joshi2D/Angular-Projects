@@ -1,6 +1,8 @@
 import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CountryService } from './country.service';
 import { FlashService } from './flash.service';
+
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,16 @@ import { FlashService } from './flash.service';
 export class AppComponent {
   @ViewChild('flashForm', { static: false })  flashForm: NgForm;
   editing = false;
+  Clear = false;
   editingId;
   maxScore = 0;
   yourScore = 0;
+  option : string = '';
+  country = {
+    countryCode : '',
+    countryDetail : {countryName : '',
+                     countryRegion : ''}
+  }
   flash = {
     question: '',
     answer: '',
@@ -23,17 +32,28 @@ export class AppComponent {
     _id: null,
     show: false
   };
+
   flashs$;
   flashs;
-  constructor(private flashService: FlashService ) {
+  countries$;
+  countries;
+  ngOnInit(){
+    //this.countryService.get();
+  }
+
+  constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
+    this.countries$ = this.countryService.countries$; 
+    this.handleCountry();
   }
 
   trackByFlashId(index, flash) {
     return flash._id;
   }
   handleGet(){
-    this.flashService.getFlashes(this.flashs);
+    this.handleClear();
+    this.Clear = true;
+    this.flashService.getFlashes(this.flashs, this.option);
   }
   handleSubmit() {
     //this.flashService.addFlash(this.flash);
@@ -43,7 +63,13 @@ export class AppComponent {
     this.handleGet();
   }
 
+  handleOption(value : string){
+     this.option = value;
+     this.handleGet();
+  }
+
   handleClear() {
+    this.Clear = false;
     this.flash = {
       question: '',
       answer: '',
@@ -76,8 +102,10 @@ export class AppComponent {
   }
 
   handleUpdate() {
+    this.flash.show = false;
     this.flashService.updateFlash(this.editingId, this.flash);
-   
+    this.handleClear();
+    this.handleGet(); 
   }
 
   handleCancel() {
@@ -111,6 +139,11 @@ export class AppComponent {
     else
     this.yourScore = this.yourScore - 2;
   }
+
+  handleCountry(){
+    this.countries = this.countryService.get(this.country);
+  }
+  
 }
 function foreach(any: any, arg1: boolean) {
   throw new Error('Function not implemented.');

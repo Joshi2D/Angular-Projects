@@ -25,11 +25,21 @@ app.use(function(req, res, next) {
 // Flash Routes
 
 //get
-app.get('/flashes',(req, res) =>{
-        Flash.find({}).then((flashes) => {
-            res.send(flashes);
-          })
+// app.get('/flashes',(req, res) =>{
+//         Flash.find({}).then((flashes) => {
+//             res.send(flashes);
+//           })
         
+//     });
+
+//conditional get 
+app.get('/flashes/:type',(req, res) =>{
+        let searchKey = req.params.type; 
+        if(searchKey == 'All')
+        searchKey = ''; 
+        Flash.find({question : {$regex : ".*"+searchKey+".*"}}).then((flashes) => {
+            res.send(flashes);
+          });
     });
 
 //post
@@ -43,7 +53,7 @@ app.post('/flashes',(req, res) => {
         answer2  : flash.answer2,
         answer3  : flash.answer3,
         answer4  : flash.answer4,
-        _id       : flash._id,
+        _id      : flash._id,
         show     : flash.show 
 
     });
