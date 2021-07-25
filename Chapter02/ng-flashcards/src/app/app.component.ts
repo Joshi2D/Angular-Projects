@@ -32,7 +32,7 @@ export class AppComponent {
     _id: null,
     show: false
   };
-
+  flag;
   flashs$;
   flashs;
   countries$;
@@ -63,8 +63,15 @@ export class AppComponent {
     this.handleGet();
   }
 
-  handleOption(value : string){
-     this.option = value;
+  handleOption(value : any){
+    if(value == 'All'){
+    this.option = value;
+    this.flag = 'RE';}
+    else{
+     this.flag = value.countryCode;
+     this.option = value.countryDetail.countryName;
+    }
+     
      this.handleGet();
   }
 

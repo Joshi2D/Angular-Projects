@@ -22,6 +22,7 @@ export class FlashComponent {
     _id: 0,
     show: false,
   };
+  @Input() flag : string;
   clicked = false;
   @Output() toggleCard = new EventEmitter();
   @Output() delete = new EventEmitter();

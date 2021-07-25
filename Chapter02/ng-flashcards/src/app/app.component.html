@@ -69,16 +69,13 @@
 <td class="column">
   <div class="segments">
     <div class="country" *ngIf="countries$ | async as countries">
-      <select class="segments" [(ngModel)] = "countries">
-        <option *ngFor="let country of countries" [value] = "country.countryCode">
+      <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "country">
+        <option value='All' selected >All</option>
+        <option *ngFor="let country of countries" [ngValue] = "country">
          {{country.countryDetail.countryName}}
         </option>
         </select>
       </div>
-    <input type="radio" class="clear-btn" (click)="handleOption('Capital')" value = "Capital" name="queType" > Capital
-    <input type="radio" class="clear-btn" (click)="handleOption('India')" value = "India" name="queType" > India
-    <input type="radio" class="clear-btn" (click)="handleOption('Srilanka')" value = "Srilanka"  name="queType"> Srilanka
-    <input type="radio" class="clear-btn" (click)="handleOption('All')" value = "China" name="queType"> ALL
   </div>
 </td>
 <td class="column">
@@ -97,6 +94,7 @@
   <app-flash
     *ngFor="let flash of flashs; trackBy trackByFlashId"
     [flash]="flash"
+    [flag]="flag"
     (toggleCard)="handleToggleCard($event)"
     (delete)="handleDelete($event)"
     (edit)="handleEdit($event)"
