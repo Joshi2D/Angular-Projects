@@ -69,17 +69,27 @@
 <td class="column">
   <div class="segments">
     <div class="country" *ngIf="countries$ | async as countries">
-      <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "country">
-        <option value='All' selected >All</option>
-        <option *ngFor="let country of countries" [ngValue] = "country">
+      <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedCountry">
+        <option [ngValue]="'All'" selected>All</option>
+        <option *ngFor="let country of countries" [ngValue] = "country" >
          {{country.countryDetail.countryName}}
         </option>
+        
         </select>
       </div>
+
+      <div class="country">
+        <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedItem">
+          <option [ngValue]="'All'" selected>All</option>
+          <option [ngValue] = "Capital">Capital</option>
+          <option [ngValue] = "Language">Language</option>
+          <option [ngValue] = "Flag">Flag</option>
+          </select>
+        </div>
   </div>
 </td>
 <td class="column">
-  <div class="score">
+  <div class="score"  *ngIf="maxScore$ | async as maxScore" >
     <app-score
     [totalCount] = "maxScore"
     [yourCount] = "yourScore"

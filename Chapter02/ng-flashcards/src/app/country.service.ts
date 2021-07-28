@@ -28,3 +28,4 @@ get(country : IcountryCode, countries : IcountryCode[] = []){
  });
 }
 }
+//https://api.printful.com/countries

@@ -2,7 +2,8 @@ import { Component, ViewChild, OnInit, EventEmitter, Output } from '@angular/cor
 import { NgForm } from '@angular/forms';
 import { CountryService } from './country.service';
 import { FlashService } from './flash.service';
-
+import { IFlash} from './flash.model'
+import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,9 @@ export class AppComponent {
   yourScore = 0;
   option : string = '';
   country = {
-    countryCode : '',
-    countryDetail : {countryName : '',
-                     countryRegion : ''}
+    countryCode : 'All',
+    countryDetail : {countryName : 'All',
+                     countryRegion : 'All'}
   }
   flash = {
     question: '',
@@ -34,17 +35,23 @@ export class AppComponent {
   };
   flag;
   flashs$;
-  flashs;
+  flashs : IFlash[]= [];
+  flashCount : number;
   countries$;
   countries;
+  selectedCountry;
+  maxScore$
   ngOnInit(){
-    //this.countryService.get();
+          this.selectedCountry = 'All';
+          this.handleOption(this.selectedCountry);
   }
 
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
+    this.maxScore$ = this.flashService.maxScore$;
     this.handleCountry();
+    this.selectedCountry = "'All'";
   }
 
   trackByFlashId(index, flash) {
@@ -53,12 +60,11 @@ export class AppComponent {
   handleGet(){
     this.handleClear();
     this.Clear = true;
-    this.flashService.getFlashes(this.flashs, this.option);
+    this.flashService.getFlashes(this.option, this.flashCount);   
   }
   handleSubmit() {
     //this.flashService.addFlash(this.flash);
     this.flashService.addFlash(this.flash);
-    this.maxScore = this.maxScore + 5;
     this.handleClear();
     this.handleGet();
   }
@@ -71,7 +77,6 @@ export class AppComponent {
      this.flag = value.countryCode;
      this.option = value.countryDetail.countryName;
     }
-     
      this.handleGet();
   }
 
@@ -87,7 +92,9 @@ export class AppComponent {
       _id: null,
       show: false
     }; 
+    if(this.flashForm)
     this.flashForm.reset();
+    if(this.flashService)
     this.flashService.emptyFlash();
     this.maxScore = 0;
     this.yourScore = 0;
@@ -148,7 +155,7 @@ export class AppComponent {
   }
 
   handleCountry(){
-    this.countries = this.countryService.get(this.country);
+  this.countryService.get(this.country);
   }
   
 }

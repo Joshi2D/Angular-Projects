@@ -31,8 +31,10 @@ export class FlashComponent {
   timeLeft: number = 20;
   subscribeTimer: number;
   interval;
+  toggle = 0;
 
    onToggleCard() {
+     if(this.toggle == 0){
     this.interval = setInterval(() => {
       if(this.timeLeft > 0) {
         this.timeLeft--;
@@ -40,6 +42,8 @@ export class FlashComponent {
         this.timeLeft = 0;
       }
     },1000)
+    this.toggle = 1;
+  }
      this.toggleCard.emit(this.flash._id);
    }
  

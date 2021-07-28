@@ -12,18 +12,22 @@ function getRandomNumber() {
 export class FlashService {
 
   flashs: IFlash[] = [];
-
+  flashcount: number = 0;
+  maxScore$ = new BehaviorSubject<number>(this.flashcount)
   flashs$ = new BehaviorSubject<IFlash[]>(this.flashs);
+ 
 
   constructor(private WebAdminService : WebAdminService) {}
 
   
- getFlashes(flashs : IFlash, option : string){
+ getFlashes(option : string, maxScore : number){
    return this.WebAdminService.get(`flashes/${option}`).subscribe((response : any) =>{
     response.forEach(element => { 
       this.flashs.push(element);
     });
     this.flashs$.next(this.flashs);
+    maxScore = this.flashs.length * 5;
+    this.maxScore$.next(maxScore)
  });
 }
 
