@@ -4,6 +4,7 @@ import { CountryService } from './country.service';
 import { FlashService } from './flash.service';
 import { IFlash} from './flash.model'
 import { Observable, Observer } from 'rxjs';
+import { IcountryCode } from './country.model';
 
 @Component({
   selector: 'app-root',
@@ -40,18 +41,17 @@ export class AppComponent {
   countries$;
   countries;
   selectedCountry;
-  maxScore$
   ngOnInit(){
           this.selectedCountry = 'All';
           this.handleOption(this.selectedCountry);
+          
   }
 
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
-    this.maxScore$ = this.flashService.maxScore$;
-    this.handleCountry();
     this.selectedCountry = "'All'";
+    this.handleCountry();
   }
 
   trackByFlashId(index, flash) {
@@ -60,10 +60,16 @@ export class AppComponent {
   handleGet(){
     this.handleClear();
     this.Clear = true;
-    this.flashService.getFlashes(this.option, this.flashCount);   
+    
+    this.flashService.getFlashes(this.option).subscribe((response : any) =>{
+      response.forEach(element => { 
+        this.flashs.push(element);
+      });
+      this.flashs$.next(this.flashs);
+      this.maxScore = this.flashs.length * 5;
+   });  
   }
   handleSubmit() {
-    //this.flashService.addFlash(this.flash);
     this.flashService.addFlash(this.flash);
     this.handleClear();
     this.handleGet();
@@ -96,28 +102,53 @@ export class AppComponent {
     this.flashForm.reset();
     if(this.flashService)
     this.flashService.emptyFlash();
+    this.flashs = [];
     this.maxScore = 0;
     this.yourScore = 0;
   }
 
   handleToggleCard(id) {
-    this.flashService.toggleFlash(id);
+    const index = this.flashs.findIndex(flash => flash._id === id);
+    this.flashs = [
+      ...this.flashs.slice(0, index),
+      {
+        ...this.flashs[index],
+        show: !this.flashs[index].show
+      },
+      ...this.flashs.slice(index + 1)
+    ];
+    this.flashs$.next(this.flashs);
   }
 
   handleDelete(_id) {
     this.editingId = _id;
-    this.flashService.deleteFlash(this.editingId, this.flashService.getFlash(_id));
+    const index = this.flashs.findIndex(flash => flash._id === _id);
+    this.flashs = [
+      ...this.flashs.slice(0, index),
+
+      ...this.flashs.slice(index + 1)
+    ];
+    this.flashs$.next(this.flashs);
+    this.flashService.deleteFlash(this.editingId).subscribe((response : any)=>{
+      console.log(response);       
+    });
   }
 
   handleEdit(id) {
-    this.flash = this.flashService.getFlash(id);
     this.editing = true;
     this.editingId = id;
+    const index = this.flashs.findIndex(flash => flash._id === id);
+    this.flash  = this.flashs[index];
+    return this.flashs[index];
   }
 
   handleUpdate() {
     this.flash.show = false;
-    this.flashService.updateFlash(this.editingId, this.flash);
+    this.flashService.updateFlash(this.editingId, this.flash, this.flashs).subscribe((response : any)=>{
+      console.log(response);       
+      console.log("FlashCard has been Updated");
+
+    });;
     this.handleClear();
     this.handleGet(); 
   }
@@ -147,15 +178,44 @@ export class AppComponent {
   }
 
   handleRememberedChange({ id, flag }) {
-    this.flashService.rememberedChange(id, flag);
     if(flag == 'correct')
     this.yourScore = this.yourScore + 5;
     else
     this.yourScore = this.yourScore - 2;
+
+    const index = this.flashs.findIndex(flash => flash._id === id);
+    this.flashs = [
+      ...this.flashs.slice(0, index),
+      {
+        ...this.flashs[index],
+        remembered: flag
+      },
+      ...this.flashs.slice(index + 1)
+    ];
+    this.flashs$.next(this.flashs);
   }
 
   handleCountry(){
-  this.countryService.get(this.country);
+  let countries : IcountryCode[] = [];
+  let country : IcountryCode;
+  country = {
+    countryCode : '',
+    countryDetail : {countryName : '',
+                     countryRegion : ''}
+  }
+  this.countryService.get().subscribe((response : any)=>{
+    response = response.data;
+    Object.keys(response).forEach(function (key){
+      country.countryCode = key;
+      country.countryDetail.countryName = response[key].country;
+      country.countryDetail.countryRegion = response[key].region;
+      let count = Object.assign({}, JSON.parse(JSON.stringify(country)));
+      countries.push(count);
+      
+  });
+  this.countries = countries;
+  this.countries$.next(this.countries);
+ });;
   }
   
 }

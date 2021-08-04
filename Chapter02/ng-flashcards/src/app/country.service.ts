@@ -11,21 +11,9 @@ export class CountryService {
   constructor(private https: HttpClient) {
   this.ROOT_URL = "https://api.first.org/data/v1/countries";
 }
-get(country : IcountryCode, countries : IcountryCode[] = []){
+get(){
   
-   return this.https.get(`${this.ROOT_URL}`).subscribe((response : any)=>{
-    response = response.data;
-    Object.keys(response).forEach(function (key){
-      country.countryCode = key;
-      country.countryDetail.countryName = response[key].country;
-      country.countryDetail.countryRegion = response[key].region;
-      let count = Object.assign({}, JSON.parse(JSON.stringify(country)));
-      countries.push(count);
-      
-  });
-  this.countries = countries;
-  this.countries$.next(this.countries);
- });
+   return this.https.get(`${this.ROOT_URL}`);
 }
 }
 //https://api.printful.com/countries

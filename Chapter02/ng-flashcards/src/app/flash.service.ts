@@ -20,15 +20,8 @@ export class FlashService {
   constructor(private WebAdminService : WebAdminService) {}
 
   
- getFlashes(option : string, maxScore : number){
-   return this.WebAdminService.get(`flashes/${option}`).subscribe((response : any) =>{
-    response.forEach(element => { 
-      this.flashs.push(element);
-    });
-    this.flashs$.next(this.flashs);
-    maxScore = this.flashs.length * 5;
-    this.maxScore$.next(maxScore)
- });
+ getFlashes(option : string){
+   return this.WebAdminService.get(`flashes/${option}`);
 }
 
 
@@ -48,69 +41,29 @@ export class FlashService {
    });
   }
 
-  toggleFlash(id: number) {
-    const index = this.flashs.findIndex(flash => flash._id === id);
-    this.flashs = [
-      ...this.flashs.slice(0, index),
+  toggleFlash(id: number, flashs : IFlash[]) {
+    const index = flashs.findIndex(flash => flash._id === id);
+    flashs = [
+      ...flashs.slice(0, index),
       {
-        ...this.flashs[index],
-        show: !this.flashs[index].show
+        ...flashs[index],
+        show: !flashs[index].show
       },
-      ...this.flashs.slice(index + 1)
+      ...flashs.slice(index + 1)
     ];
-    this.flashs$.next(this.flashs);
+    this.flashs$.next(flashs);
   }
 
-  deleteFlash(id: number, flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string, _id: number, show: boolean} ) {
-    const index = this.flashs.findIndex(flash => flash._id === id);
-    this.flashs = [
-      ...this.flashs.slice(0, index),
+  deleteFlash(id: number) {
+   
 
-      ...this.flashs.slice(index + 1)
-    ];
-    this.flashs$.next(this.flashs);
-
-    return this.WebAdminService.delete(`flashes/${id}`, {flash} ).subscribe((response : any)=>{
-      console.log(response);       
-    });
+    return this.WebAdminService.delete(`flashes/${id}`);
   }
 
-  rememberedChange(id: number, flag: 'correct' | 'incorrect') {
-    const index = this.flashs.findIndex(flash => flash._id === id);
-    this.flashs = [
-      ...this.flashs.slice(0, index),
-      {
-        ...this.flashs[index],
-        remembered: flag
-      },
-      ...this.flashs.slice(index + 1)
-    ];
-    this.flashs$.next(this.flashs);
-
+  updateFlash(id: number, flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string, _id: number, show: boolean}, flashs : IFlash[]) {
+    return this.WebAdminService.patch(`flashes/${id}`, {flash} );
   }
 
-  updateFlash(id: number, flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string, _id: number, show: boolean}) {
-    const index = this.flashs.findIndex(f => f._id === id);
-    this.flashs = [
-      ...this.flashs.slice(0, index),
-      {
-        ...this.flashs[index],
-        ...flash
-      },
-      ...this.flashs.slice(index + 1)
-    ];
-    this.flashs$.next(this.flashs);
-    return this.WebAdminService.patch(`flashes/${id}`, {flash} ).subscribe((response : any)=>{
-      console.log(response);       
-      console.log("FlashCard has been Updated");
-
-    });
-  }
-
-  getFlash(id: number) {
-    const index = this.flashs.findIndex(flash => flash._id === id);
-    return this.flashs[index];
-  }
    
   deleteDB(){
      return this.WebAdminService.deleteAll('flashes').subscribe((response) =>{

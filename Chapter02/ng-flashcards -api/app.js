@@ -86,7 +86,6 @@ app.patch('/flashes/:id',(req, res) =>{
 
 //delete
 app.delete('/flashes/:id',(req, res) =>{
-console.log(req.params.id)
     Flash.findOneAndDelete({
         _id: req.params.id 
      }).then((removedFlashDoc) =>{

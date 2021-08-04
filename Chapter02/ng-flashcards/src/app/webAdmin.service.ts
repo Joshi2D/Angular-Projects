@@ -28,8 +28,8 @@ export class WebAdminService {
     return this.http.delete(`${this.ROOT_URL}/${uri}`);
    }
 
-   delete(uri : string, card : object){
-    return this.http.delete(`${this.ROOT_URL}/${uri}`, card);
+   delete(uri : string){
+    return this.http.delete(`${this.ROOT_URL}/${uri}`);
    }
 
 }
