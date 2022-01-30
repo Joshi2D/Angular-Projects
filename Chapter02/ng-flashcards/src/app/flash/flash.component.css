@@ -7,7 +7,9 @@
 .card-header {
   cursor: pointer;
 }
-
+.img-size{
+  height : 15px;
+}
 .timer{
     margin-top: 10px;
     color: darkblue;
@@ -31,6 +33,8 @@
   border-width: 0 0 0px;
   padding: .5em .75em;
   vertical-align: top;
+  background-color: rgba(0,0,0, 0.4);
+  background-size: cover;
 }
 
 .button.correct {
@@ -39,4 +43,11 @@
 
 .button.incorrect {
     background: red;
+}
+
+.background-img{
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: aquamarine;
 }

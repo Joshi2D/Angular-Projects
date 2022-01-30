@@ -1,6 +1,6 @@
 <div class="card">
   <header class="card-header" [ngClass]="flash.remembered"  (click)="onToggleCard()">
-    <p class="card-header-title">{{flash.question}}&nbsp;&nbsp;<img src="https://www.countryflags.io/{{flag}}/flat/32.png"></p><p class="timer" card-header-title>{{timeLeft}}</p>
+    <p class="card-header-title">{{flash.question}}&nbsp;&nbsp;<img class="img-size" src="https://flagcdn.com/{{flag}}.svg"></p><p class="timer" card-header-title>{{timeLeft}}</p>
     <a href="javascript:void(0)"  class="card-header-icon" aria-label="more options">
       <span class="icon">
         <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -8,9 +8,10 @@
     </a>
   </header>
   <div *ngIf="flash.show">
-    <div class="card-content">
+    <div class="card-content background-img" [style.background-image] = "url">
     <div class="content">
-      <table style="border:none">
+      
+      <table  style="border:none">
         <tr>
           <td>
             <button type ="button"  [disabled] = "clicked || timeLeft == 0"  value = flash.answer1 (click)="markCorrect(flash.answer1, flash.answer)" class ="button">{{flash.answer1}}</button>

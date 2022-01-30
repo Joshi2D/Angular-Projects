@@ -4,13 +4,15 @@ import { CountryService } from './country.service';
 import { FlashService } from './flash.service';
 import { IFlash} from './flash.model'
 import { Observable, Observer } from 'rxjs';
-import { IcountryCode } from './country.model';
+import { ICountry } from './country.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent {
   @ViewChild('flashForm', { static: false })  flashForm: NgForm;
   editing = false;
@@ -24,6 +26,7 @@ export class AppComponent {
     countryDetail : {countryName : 'All',
                      countryRegion : 'All'}
   }
+
   flash = {
     question: '',
     answer: '',
@@ -34,6 +37,7 @@ export class AppComponent {
     _id: null,
     show: false
   };
+  url;
   flag;
   flashs$;
   flashs : IFlash[]= [];
@@ -78,10 +82,11 @@ export class AppComponent {
   handleOption(value : any){
     if(value == 'All'){
     this.option = value;
-    this.flag = 'RE';}
+    this.flag = 're';}
     else{
-     this.flag = value.countryCode;
-     this.option = value.countryDetail.countryName;
+     this.flag = value.countryCode.toLowerCase( );
+     this.url  = 'url(https://flagcdn.com/'+this.flag +'.svg)';
+     this.option = value.countryName;
     }
      this.handleGet();
   }
@@ -196,23 +201,53 @@ export class AppComponent {
   }
 
   handleCountry(){
-  let countries : IcountryCode[] = [];
-  let country : IcountryCode;
+  let countries : ICountry[] = [];
+  let country : ICountry;
+  let countriesobj : ICountry[] = [];
   country = {
-    countryCode : '',
-    countryDetail : {countryName : '',
-                     countryRegion : ''}
+    countryName : '',
+countryRegion : '',
+countrySubregion : '',
+countryLanguages : [],
+countryFlag : '',
+countryOrganizations : [],
+countryPopulation : null,
+countryArea : null,
+countryNeighbours : [],
+countryCurrency : '',
+countryCode : '',
+countryCapital : ''
   }
-  this.countryService.get().subscribe((response : any)=>{
-    response = response.data;
-    Object.keys(response).forEach(function (key){
-      country.countryCode = key;
-      country.countryDetail.countryName = response[key].country;
-      country.countryDetail.countryRegion = response[key].region;
+this.countryService.get().subscribe((response : any)=>{
+  console.log(response);
+      Object.keys(response).forEach(function (index){
+      country.countryCode = response[index].alpha2Code;
+      country.countryCapital = response[index].capital;
+      country.countryName = response[index].name;
+      country.countryRegion = response[index].region;
+      country.countrySubregion = response[index].subregion;
+      country.countryArea = response[index].area;
+      country.countryPopulation = response[index].population;
+      country.countryCurrency = response[index].demonym;
+      country.countryFlag = response[index].flag;
+      if(response[index].borders != undefined){
+      Object.keys(response[index].borders).forEach(function(i){
+          country.countryNeighbours.push(response[index].borders[i]);
+       });}
+      if(response[index].languages != undefined){
+       Object.keys(response[index].languages).forEach(function(i){
+          country.countryLanguages.push(response[index].languages[i]);
+       });}
+      if(response[index].regionalBlocs != undefined){
+        Object.keys(response[index].regionalBlocs).forEach(function(i){
+           country.countryLanguages.push(response[index].regionalBlocs[i]);
+      });}
+     
       let count = Object.assign({}, JSON.parse(JSON.stringify(country)));
       countries.push(count);
       
   });
+  
   this.countries = countries;
   this.countries$.next(this.countries);
  });;
