@@ -29,6 +29,8 @@ export class FlashService {
     this.flashs = [
       ...this.flashs, {
         ...flash,
+        flag : '',
+        url:'',
         show: false,
         _id: getRandomNumber(),    
       }

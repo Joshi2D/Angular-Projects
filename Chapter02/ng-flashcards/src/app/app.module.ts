@@ -9,10 +9,14 @@ import { ScoreComponent } from './score/score.component';
 import {HttpClientModule} from '@angular/common/http'
 import { WebAdminService } from './webAdmin.service';
 import { CountryService } from './country.service';
+
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 @NgModule({
-  imports:      [ BrowserModule, FormsModule, HttpClientModule ],
+  imports:      [ BrowserModule, FormsModule, HttpClientModule, NgMultiSelectDropDownModule.forRoot()],
   declarations: [ AppComponent, FlashComponent, ScoreComponent ],
   bootstrap:    [ AppComponent],
   providers: [FlashService, WebAdminService, CountryService]
+  
 })
 export class AppModule { }

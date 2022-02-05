@@ -5,6 +5,9 @@ import { FlashService } from './flash.service';
 import { IFlash} from './flash.model'
 import { Observable, Observer } from 'rxjs';
 import { ICountry } from './country.model';
+import { timeout } from 'rxjs/operators';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,7 @@ import { ICountry } from './country.model';
 })
 
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   @ViewChild('flashForm', { static: false })  flashForm: NgForm;
   editing = false;
   Clear = false;
@@ -21,12 +24,37 @@ export class AppComponent {
   maxScore = 0;
   yourScore = 0;
   option : string = '';
-  country = {
-    countryCode : 'All',
-    countryDetail : {countryName : 'All',
-                     countryRegion : 'All'}
-  }
+  countryName = '';
 
+  selectedItems = [];
+  countryDropdown :IDropdownSettings 
+  capitalDropdown :IDropdownSettings 
+  ngOnInit(){
+    
+    this.selectedCountry = 'All';    
+    this.countryDropdown = {
+      singleSelection: true,
+      idField: 'countryCode',
+      textField: 'countryName',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    this.capitalDropdown = {
+      singleSelection: false,
+      idField: 'countryCode',
+      textField: 'countryCapital',
+      itemsShowLimit: 4,
+      allowSearchFilter: true
+    };
+  }
+  filterdOptions = [];
+  filterUsers() {
+    this.filterdOptions = this.countries.filter(
+      item => item.countryName.toLowerCase().includes(this.selectedCountry.toLowerCase())
+    );
+    console.log(this.filterdOptions);
+  }
+  
   flash = {
     question: '',
     answer: '',
@@ -34,6 +62,8 @@ export class AppComponent {
     answer2: '',
     answer3: '',
     answer4: '',
+    flag: '',
+    url :'',
     _id: null,
     show: false
   };
@@ -45,17 +75,13 @@ export class AppComponent {
   countries$;
   countries;
   selectedCountry;
-  ngOnInit(){
-          this.selectedCountry = 'All';
-          this.handleOption(this.selectedCountry);
-          
-  }
-
+  question;
+ 
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
-    this.selectedCountry = "'All'";
     this.handleCountry();
+
   }
 
   trackByFlashId(index, flash) {
@@ -67,6 +93,13 @@ export class AppComponent {
     
     this.flashService.getFlashes(this.option).subscribe((response : any) =>{
       response.forEach(element => { 
+        this.countries.forEach(element1 => {
+          if(element.question == element1.countryName)
+          {
+            element.flag = element1.countryCode.toLowerCase();
+            element.url = 'url(https://flagcdn.com/'+element.flag+'.svg)';
+          }
+        });
         this.flashs.push(element);
       });
       this.flashs$.next(this.flashs);
@@ -76,22 +109,40 @@ export class AppComponent {
   handleSubmit() {
     this.flashService.addFlash(this.flash);
     this.handleClear();
-    this.handleGet();
+    setTimeout(()=>{ 
+      this.option = 'All';
+      this.handleGet();
+   },2000);
   }
 
   handleOption(value : any){
     if(value == 'All'){
     this.option = value;
-    this.flag = 're';}
-    else{
-     this.flag = value.countryCode.toLowerCase( );
-     this.url  = 'url(https://flagcdn.com/'+this.flag +'.svg)';
-     this.option = value.countryName;
     }
-     this.handleGet();
+    else{
+     this.option = value.countryName;
+     this.flash.question = value.countryName;
+    }
   }
 
+  i : any =0;
+  handleCapital(value : any){
+   this.i++;
+   if(this.i == 1){
+     this.flash.answer1 = value.countryCapital;
+   }
+   if(this.i == 2){
+    this.flash.answer2 = value.countryCapital;
+   }
+   if(this.i == 3){
+    this.flash.answer3 = value.countryCapital;
+   }
+   if(this.i == 4){
+    this.flash.answer4 = value.countryCapital;
+   }
+  }
   handleClear() {
+    this.i = 0;
     this.Clear = false;
     this.flash = {
       question: '',
@@ -100,9 +151,12 @@ export class AppComponent {
       answer2: '',
       answer3: '',
       answer4: '',
+      flag: '',
+      url:'',
       _id: null,
       show: false
     }; 
+
     if(this.flashForm)
     this.flashForm.reset();
     if(this.flashService)
@@ -173,6 +227,8 @@ export class AppComponent {
     answer2: '',
     answer3: '',
     answer4: '',
+    flag:'',
+    url:'',
     _id: null,
     show: false
   }; 
@@ -206,20 +262,19 @@ export class AppComponent {
   let countriesobj : ICountry[] = [];
   country = {
     countryName : '',
-countryRegion : '',
-countrySubregion : '',
-countryLanguages : [],
-countryFlag : '',
-countryOrganizations : [],
-countryPopulation : null,
-countryArea : null,
-countryNeighbours : [],
-countryCurrency : '',
-countryCode : '',
-countryCapital : ''
+    countryRegion : '',
+    countrySubregion : '',
+    countryLanguages : [],
+    countryFlag : '',
+    countryOrganizations : [],
+    countryPopulation : null,
+    countryArea : null,
+    countryNeighbours : [],
+    countryCurrency : '',
+    countryCode : '',
+    countryCapital : ''
   }
 this.countryService.get().subscribe((response : any)=>{
-  console.log(response);
       Object.keys(response).forEach(function (index){
       country.countryCode = response[index].alpha2Code;
       country.countryCapital = response[index].capital;
@@ -251,6 +306,11 @@ this.countryService.get().subscribe((response : any)=>{
   this.countries = countries;
   this.countries$.next(this.countries);
  });;
+ setTimeout(()=>{ 
+   this.option = 'All';    
+   this.handleGet();
+},2000);
+
   }
   
 }

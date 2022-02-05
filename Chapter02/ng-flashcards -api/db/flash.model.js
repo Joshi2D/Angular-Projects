@@ -5,37 +5,43 @@ question: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:50,
+    maxlength:100,
     trim: true
 },answer: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:10,
+    maxlength:100,
     trim: true
 },answer1: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:10,
+    maxlength:100,
     trim: true
 },answer2: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:10,
+    maxlength:100,
     trim: true
 },answer3: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:10,
+    maxlength:100,
     trim: true
 },answer4: {
     type: String,
     required: false,
     minlength: 0,
-    maxlength:10,
+    maxlength:100,
+    trim: true
+},flag: {
+    type: String,
+    required: false,
+    minlength: 0,
+    maxlength:100,
     trim: true
 },_id: {
     type: Number,

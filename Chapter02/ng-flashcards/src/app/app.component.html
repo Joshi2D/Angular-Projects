@@ -1,4 +1,7 @@
-<table>
+<table class="rows">
+  <tr  class="row is-full" >
+    
+  </tr>
   <tr  class="columns"> 
     <td  class="column is-one-thirds">
 <form #flashForm="ngForm">
@@ -69,23 +72,40 @@
 <td class="column">
   <div class="segments">
     <div class="country" *ngIf="countries$ | async as countries">
-      <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedCountry">
+      <!-- <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedCountry">
         <option [ngValue]="'All'" selected>All</option>
         <option *ngFor="let country of countries" [ngValue] = "country" >
          {{country.countryName}}
         </option>
-        
-        </select>
+        </select> -->
+        <!-- <input type = "text" [(ngModel)] = "selectedCountry" (input) = "filterUsers()">
+        <input type="text" [(ngModel)] = "selectedCountry" placeholder="Select Country" ng-repeat="country of countries | filter:{name:$viewValue}" class="form-control"> -->
+        <ng-multiselect-dropdown
+        [placeholder]="'Select Country'"
+        [settings]="countryDropdown"
+        [data]="countries"
+        [(ngModel)]="selectedCountry"
+        (onSelect)="handleOption($event)"
+      >
+      </ng-multiselect-dropdown>
+      <ng-multiselect-dropdown 
+        [placeholder]="'Select Capitals'"
+        [settings]="capitalDropdown"
+        [data]="countries"
+        [(ngModel)]="selectedCapital"
+        (onSelect)="handleCapital($event)"
+      >
+      </ng-multiselect-dropdown>
       </div>
 
-      <div class="country">
+      <!-- <div class="country">
         <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedItem">
           <option [ngValue]="'All'" selected>All</option>
           <option [ngValue] = "Capital">Capital</option>
           <option [ngValue] = "Language">Language</option>
           <option [ngValue] = "Flag">Flag</option>
           </select>
-        </div>
+        </div> -->
   </div>
 </td>
 <td class="column">

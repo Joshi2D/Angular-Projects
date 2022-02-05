@@ -19,6 +19,8 @@ export class FlashComponent {
     answer2: '',
     answer3: '',
     answer4: '',
+    flag : '',
+    url:'',
     _id: 0,
     show: false,
   };
