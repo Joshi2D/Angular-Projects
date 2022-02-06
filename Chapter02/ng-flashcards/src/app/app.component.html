@@ -1,20 +1,61 @@
-<table class="rows">
-  <tr  class="row is-full" >
-    
-  </tr>
-  <tr  class="columns"> 
-    <td  class="column is-one-thirds">
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item is-active" (click)="handleCreateQuestion()">
+        Home
+      </a>
+      <a class="navbar-item" (click)="handlePuzzel()">
+        Documentation
+      </a>
+      <!-- <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More
+        </a>
+
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            About
+          </a>
+          <a class="navbar-item">
+            Jobs
+          </a>
+          <a class="navbar-item">
+            Contact
+          </a>
+          <hr class="navbar-divider">
+          <a class="navbar-item">
+            Report an issue
+          </a>
+        </div>
+      </div> -->
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button is-light">
+            Log in
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<table >  
+<tr> 
+<td>
+  <div *ngIf ="questionsec" class="columns is-vcentered">
+    <div class="column is-3">
 <form #flashForm="ngForm">
-	<h1 class="is-size-3">{{editing ? 'Edit': 'Add New'}} Flash Card</h1>
+	<h1 class="is-size-3"></h1>
 	<div class="field">
 		<label class="label" for="">Question</label>
     <div class="control">
       <input required class="input" type="text" name="question" #questionEl="ngModel" [ngClass]="{'is-danger': questionEl.invalid && !questionEl.pristine}" [(ngModel)]="flash.question">
     </div>
   </div>
-
-    
-  
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input  [disabled]="flashForm.invalid" type="radio"  value ={{flash.answer1}} name="answer" #answerE1="ngModel" [ngClass]="{'is-danger': answerE1.invalid && !answerE1.pristine}" [(ngModel)]="flash.answer">
@@ -23,9 +64,6 @@
     <input required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1">
   </div>
   </div>
-  
-
- 
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input   [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer2}} name="answer" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer">
@@ -34,8 +72,6 @@
       <input required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
     </div>
   </div>
-
-  
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input   [disabled]="flashForm.invalid" type="radio" value ={{flash.answer3}} name="answer" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer">
@@ -44,8 +80,6 @@
       <input required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
     </div>
   </div>
- 
-  
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input  [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer4}} name="answer" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer">
@@ -68,18 +102,18 @@
   <button class="button flash-btn" (click)="handleGet()">Flashes</button>
    </ng-template>
 </form>
-</td>
-<td class="column">
-  <div class="segments">
-    <div class="country" *ngIf="countries$ | async as countries">
-      <!-- <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedCountry">
-        <option [ngValue]="'All'" selected>All</option>
-        <option *ngFor="let country of countries" [ngValue] = "country" >
-         {{country.countryName}}
-        </option>
-        </select> -->
-        <!-- <input type = "text" [(ngModel)] = "selectedCountry" (input) = "filterUsers()">
-        <input type="text" [(ngModel)] = "selectedCountry" placeholder="Select Country" ng-repeat="country of countries | filter:{name:$viewValue}" class="form-control"> -->
+</div >
+<div class="column is-2.5">
+        <ng-multiselect-dropdown
+        [placeholder]="'Select Quiz'"
+        [settings]="quizDropdown"
+        [data]="quizes"
+        [(ngModel)]="selectedQuiz"
+        (onSelect)="handleQuiz($event)"
+      >
+      </ng-multiselect-dropdown>
+</div>
+<div  class="column is-2.5">
         <ng-multiselect-dropdown
         [placeholder]="'Select Country'"
         [settings]="countryDropdown"
@@ -88,6 +122,8 @@
         (onSelect)="handleOption($event)"
       >
       </ng-multiselect-dropdown>
+ </div>
+ <div  class="column is-2.5">
       <ng-multiselect-dropdown 
         [placeholder]="'Select Capitals'"
         [settings]="capitalDropdown"
@@ -96,8 +132,8 @@
         (onSelect)="handleCapital($event)"
       >
       </ng-multiselect-dropdown>
-      </div>
-
+    </div>
+  <div  class="column is-2.5">
       <!-- <div class="country">
         <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedItem">
           <option [ngValue]="'All'" selected>All</option>
@@ -107,19 +143,21 @@
           </select>
         </div> -->
   </div>
+      </div>
 </td>
-<td class="column">
+<!-- <td class="column">
   <div class="score" >
     <app-score
     [totalCount] = "maxScore"
     [yourCount] = "yourScore"
     ></app-score>
   </div>
-</td>
+</td> -->
 </tr>
 </table>
 <br>
 <br>
+<div *ngIf = "!questionsec">
 <div class="flashs" *ngIf="flashs$ | async as flashs">
   <app-flash
     *ngFor="let flash of flashs; trackBy trackByFlashId"
@@ -131,4 +169,5 @@
     (edit)="handleEdit($event)"
     (rememberedChange)="handleRememberedChange($event)"    
   ></app-flash>
+</div>
 </div>

@@ -1,8 +1,54 @@
+<style>
+  .header {
+    width: 800px !important;
+    height: 80px !important;
+    text-align: center !important;
+    background-color: #BDBDBD !important;
+}
+
+.footer {
+    background-color: #BDBDBD !important;
+    text-align: center !important;
+}
+
+.leftMenu {
+    height: 500px !important;
+    background-color: #D8D8D8 !important;
+    width: 150px !important;
+}
+
+.leftMenu2{
+  margin-top: 150px !important;
+    margin-left:80px !important;
+    display: block;
+}
+
+.leftMenu3{
+  display: block;
+  margin-left:80px !important;
+  margin-top: 15px !important;
+}
+
+.mainContent {
+    height: 500px !important;
+    background-color: #E6E6E6 !important;
+    width: 650px !important;
+}
+a{
+    
+    padding:5px ;
+}
+
+h1{
+  font-size: 300% !important;
+  font-weight: 400 !important;
+}
+</style>
+
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NgFlashcards</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +58,29 @@
   crossorigin="anonymous">
 </head>
 <body>
-  <app-root></app-root>
+  <table style="font-family: Arial; width : 100%;">
+    <tr>
+        <td colspan="2" class="header">
+            <h1>
+                 World Games
+            </h1>
+        </td>
+    </tr>
+    <tr>
+        <td class="leftMenu">
+            <a class="leftMenu2"  href="#/home">Home</a>
+            <a class="leftMenu3" href="#/courses">Courses</a>
+            <a class="leftMenu3" href="#/students">Students</a>
+        </td>
+        <td class="mainContent">
+          <app-root></app-root>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="footer">
+            <b>copy right @ joshi.himanshu</b>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,6 +1,6 @@
 form {
   margin: 10px;
-  width: 314px
+  width: 240px
 }
 
 .flashs {
@@ -19,3 +19,11 @@ form {
 table{
   width: 100%;
 }
+
+a{
+  display: inline !important;
+}
+a.navbar-item {
+    display: inherit !important;
+}
+

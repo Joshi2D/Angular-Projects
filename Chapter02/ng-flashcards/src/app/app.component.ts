@@ -26,12 +26,21 @@ export class AppComponent implements OnInit{
   option : string = '';
   countryName = '';
 
-  selectedItems = [];
-  countryDropdown :IDropdownSettings 
-  capitalDropdown :IDropdownSettings 
+  selectedQuiz = [];
+  countryDropdown :IDropdownSettings;
+  capitalDropdown :IDropdownSettings;
+  quizDropdown :IDropdownSettings;
+  quizes = [];
   ngOnInit(){
-    
-    this.selectedCountry = 'All';    
+    this.quizes = [
+      { quizId: 1, quizName: 'Capital' },
+      { quizId: 2, quizName: 'Flag' },
+      { quizId: 3, quizName: 'Language' },
+      { quizId: 4, quizName: 'Area' },
+    ];
+    this.selectedQuiz = [
+      { quizId: 1, quizName: 'Capital' }
+    ];
     this.countryDropdown = {
       singleSelection: true,
       idField: 'countryCode',
@@ -39,8 +48,15 @@ export class AppComponent implements OnInit{
       itemsShowLimit: 3,
       allowSearchFilter: true
     };
+    this.quizDropdown = {
+      singleSelection: true,
+      idField: 'quizId',
+      textField: 'quizName',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
     this.capitalDropdown = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'countryCode',
       textField: 'countryCapital',
       itemsShowLimit: 4,
@@ -76,7 +92,7 @@ export class AppComponent implements OnInit{
   countries;
   selectedCountry;
   question;
- 
+  questionsec = true;
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
@@ -87,6 +103,15 @@ export class AppComponent implements OnInit{
   trackByFlashId(index, flash) {
     return flash._id;
   }
+
+  handleCreateQuestion(){
+    this.questionsec = true;
+  }
+
+  handlePuzzel(){
+    this.questionsec = false;
+  }
+
   handleGet(){
     this.handleClear();
     this.Clear = true;
@@ -141,6 +166,11 @@ export class AppComponent implements OnInit{
     this.flash.answer4 = value.countryCapital;
    }
   }
+
+  handleQuiz(value : any){
+   
+   }
+
   handleClear() {
     this.i = 0;
     this.Clear = false;
