@@ -26,6 +26,7 @@ export class FlashComponent {
   };
   @Input() flag : string;
   @Input() url : string;
+  @Input() capitalsec : string;
   clicked = false;
   @Output() toggleCard = new EventEmitter();
   @Output() delete = new EventEmitter();

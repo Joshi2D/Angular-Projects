@@ -46,12 +46,11 @@
 <table >  
 <tr> 
 <td>
-  <div *ngIf ="questionsec" class="columns is-vcentered">
-    <div class="column is-3">
+  <div *ngIf ="questionsec" class="columns is-vcentered" style="margin-top:30px">
+  <div class="column is-4">
 <form #flashForm="ngForm">
 	<h1 class="is-size-3"></h1>
 	<div class="field">
-		<label class="label" for="">Question</label>
     <div class="control">
       <input required class="input" type="text" name="question" #questionEl="ngModel" [ngClass]="{'is-danger': questionEl.invalid && !questionEl.pristine}" [(ngModel)]="flash.question">
     </div>
@@ -59,34 +58,38 @@
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input  [disabled]="flashForm.invalid" type="radio"  value ={{flash.answer1}} name="answer" #answerE1="ngModel" [ngClass]="{'is-danger': answerE1.invalid && !answerE1.pristine}" [(ngModel)]="flash.answer">
-      <label for="" class="label" style="margin-left:10px;">Option 1 </label></span>
 	<div class="control">
-    <input required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1">
+    <img *ngIf = "!capitalsec" class="img-size" src="{{flash.answer1 ? 'https://flagcdn.com/'+flash.answer1+'.svg': 'https://flagcdn.com/aq.svg'}}">
+    <input style="margin-left:13px"*ngIf = "capitalsec" required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1">
   </div>
+</span>
   </div>
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input   [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer2}} name="answer" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer">
-      <label for="" class="label" style="margin-left:10px;">Option 2 </label></span>
     <div class="control">
-      <input required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
+      <div class="background"><img *ngIf = "!capitalsec" class="img-size" src="{{flash.answer2 ? 'https://flagcdn.com/'+flash.answer2+'.svg': 'https://flagcdn.com/aq.svg'}}"></div>
+      <input style="margin-left:13px" *ngIf = "capitalsec" required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
     </div>
+  </span>
   </div>
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input   [disabled]="flashForm.invalid" type="radio" value ={{flash.answer3}} name="answer" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer">
-      <label for="" class="label" style="margin-left:10px;">Option 3 </label></span>
     <div class="control">
-      <input required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
-    </div>
+      <img *ngIf = "!capitalsec" class="img-size" src="{{flash.answer3 ? 'https://flagcdn.com/'+flash.answer3+'.svg': 'https://flagcdn.com/aq.svg'}}">
+      <input  style="margin-left:13px" *ngIf = "capitalsec" required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
+  </div>
+</span>
   </div>
   <div class="field">
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input  [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer4}} name="answer" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer">
-      <label for="" class="label" style="margin-left:10px;">Option 4 </label></span>
     <div class="control">
-      <input required class="input" type="text" name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer4">
+      <img *ngIf = "!capitalsec" class="img-size" src="{{flash.answer4 ? 'https://flagcdn.com/'+flash.answer4+'.svg': 'https://flagcdn.com/aq.svg'}}">
+      <input  style="margin-left:13px" *ngIf = "capitalsec" required class="input" type="text" name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer4">
     </div>
+  </span>
   </div>
   <button *ngIf="editing; else submitBtn" class="button is-primary" type="submit" (click)="handleUpdate()" [disabled]="flashForm.invalid">Update</button>
   <ng-template #submitBtn>
@@ -103,6 +106,8 @@
    </ng-template>
 </form>
 </div >
+
+
 <div class="column is-2.5">
         <ng-multiselect-dropdown
         [placeholder]="'Select Quiz'"
@@ -113,6 +118,7 @@
       >
       </ng-multiselect-dropdown>
 </div>
+
 <div  class="column is-2.5">
         <ng-multiselect-dropdown
         [placeholder]="'Select Country'"
@@ -123,9 +129,9 @@
       >
       </ng-multiselect-dropdown>
  </div>
- <div  class="column is-2.5">
+ <div *ngIf = "capitalsec" class="column is-2.5">
       <ng-multiselect-dropdown 
-        [placeholder]="'Select Capitals'"
+        [placeholder]="'Select Capital'"
         [settings]="capitalDropdown"
         [data]="countries"
         [(ngModel)]="selectedCapital"
@@ -133,8 +139,10 @@
       >
       </ng-multiselect-dropdown>
     </div>
-  <div  class="column is-2.5">
-      <!-- <div class="country">
+    <div *ngIf = "!capitalsec" class="column is-2.5">
+    </div>
+  <div  class="column is-1">
+       <!-- <div class="country">
         <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedItem">
           <option [ngValue]="'All'" selected>All</option>
           <option [ngValue] = "Capital">Capital</option>
@@ -142,7 +150,7 @@
           <option [ngValue] = "Flag">Flag</option>
           </select>
         </div> -->
-  </div>
+  </div> 
       </div>
 </td>
 <!-- <td class="column">
@@ -164,6 +172,7 @@
     [flash]="flash"
     [flag]="flag"
     [url] = "url"
+    [capitalsec] ="capitalsec"
     (toggleCard)="handleToggleCard($event)"
     (delete)="handleDelete($event)"
     (edit)="handleEdit($event)"

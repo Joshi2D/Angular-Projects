@@ -14,18 +14,30 @@
       <table  style="border:none">
         <tr>
           <td>
-            <button type ="button"  [disabled] = "clicked || timeLeft == 0"  value = flash.answer1 (click)="markCorrect(flash.answer1, flash.answer)" class ="button">{{flash.answer1}}</button>
+            <button type ="button"  [disabled] = "clicked || timeLeft == 0"  value = flash.answer1 (click)="markCorrect(flash.answer1, flash.answer)" class ="button">
+              <span *ngIf = "capitalsec">{{flash.answer1}}</span>
+              <img *ngIf = "!capitalsec" class="img-size-but" src="https://flagcdn.com/{{flash.answer1}}.svg">
+            </button>
           </td>
           <td>
-            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer2 (click)="markCorrect(flash.answer2, flash.answer)" class ="button">{{flash.answer2}}</button>
+            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer2 (click)="markCorrect(flash.answer2, flash.answer)" class ="button">
+              <span *ngIf = "capitalsec">{{flash.answer2}}</span>
+              <img  *ngIf = "!capitalsec" class="img-size-but" src="https://flagcdn.com/{{flash.answer2}}.svg">
+            </button>
           </td>
         </tr>
         <tr>
           <td>
-            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer3 (click)="markCorrect(flash.answer3, flash.answer)" class ="button">{{flash.answer3}}</button>
+            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer3 (click)="markCorrect(flash.answer3, flash.answer)" class ="button">
+            <span *ngIf = "capitalsec">{{flash.answer3}}</span>
+            <img *ngIf = "!capitalsec" class="img-size-but" src="https://flagcdn.com/{{flash.answer3}}.svg">
+            </button>
           </td>
           <td>
-            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer4 (click)="markCorrect(flash.answer4, flash.answer)" class ="button">{{flash.answer4}}</button>
+            <button type ="button"  [disabled] = "clicked || timeLeft == 0" value = flash.answer4 (click)="markCorrect(flash.answer4, flash.answer)" class ="button">
+            <span *ngIf = "capitalsec">{{flash.answer4}}</span>
+            <img *ngIf = "!capitalsec" class="img-size-but" src="https://flagcdn.com/{{flash.answer4}}.svg">
+            </button>
           </td>
         </tr>
       </table>

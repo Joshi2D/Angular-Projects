@@ -27,9 +27,14 @@ export class AppComponent implements OnInit{
   countryName = '';
 
   selectedQuiz = [];
+  flags = [{
+    flagId:'',
+    flagName:''
+  }];
   countryDropdown :IDropdownSettings;
   capitalDropdown :IDropdownSettings;
   quizDropdown :IDropdownSettings;
+
   quizes = [];
   ngOnInit(){
     this.quizes = [
@@ -38,9 +43,13 @@ export class AppComponent implements OnInit{
       { quizId: 3, quizName: 'Language' },
       { quizId: 4, quizName: 'Area' },
     ];
+
+    
+
     this.selectedQuiz = [
       { quizId: 1, quizName: 'Capital' }
     ];
+
     this.countryDropdown = {
       singleSelection: true,
       idField: 'countryCode',
@@ -92,7 +101,9 @@ export class AppComponent implements OnInit{
   countries;
   selectedCountry;
   question;
+  capitalsec = true;
   questionsec = true;
+  placeholder = "Capital";
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
@@ -102,6 +113,15 @@ export class AppComponent implements OnInit{
 
   trackByFlashId(index, flash) {
     return flash._id;
+  }
+
+  handleQuiz(value : any){
+    if(value.quizName != 'Capital'){
+       this.capitalsec = false;
+    }
+    else{
+      this.capitalsec = true;
+    }
   }
 
   handleCreateQuestion(){
@@ -140,14 +160,31 @@ export class AppComponent implements OnInit{
    },2000);
   }
 
+  j : any =0;
   handleOption(value : any){
-    if(value == 'All'){
-    this.option = value;
-    }
-    else{
-     this.option = value.countryName;
-     this.flash.question = value.countryName;
-    }
+    // if(value == 'All'){
+    // this.option = value;
+    // }
+    // else{
+    //  this.option = value.countryName;
+    // }
+
+   if(this.j == 1){
+     this.flash.answer1 = value.countryCode.toLowerCase();
+   }
+   if(this.j == 2){
+    this.flash.answer2 = value.countryCode.toLowerCase();
+   }
+   if(this.j == 3){
+    this.flash.answer3 = value.countryCode.toLowerCase();
+   }
+   if(this.j == 4){
+    this.flash.answer4 = value.countryCode.toLowerCase();
+   }
+   if(this.j == 0){
+    this.flash.question = value.countryName;
+  }
+  this.j++;
   }
 
   i : any =0;
@@ -167,12 +204,11 @@ export class AppComponent implements OnInit{
    }
   }
 
-  handleQuiz(value : any){
-   
-   }
+
 
   handleClear() {
     this.i = 0;
+    this.j = 0;
     this.Clear = false;
     this.flash = {
       question: '',

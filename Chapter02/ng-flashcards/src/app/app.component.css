@@ -27,3 +27,12 @@ a.navbar-item {
     display: inherit !important;
 }
 
+.img-size{
+  width:23.5%;
+  max-width:23.5%;
+  height:30%;
+  margin-left:15px;
+}
+
+
+
