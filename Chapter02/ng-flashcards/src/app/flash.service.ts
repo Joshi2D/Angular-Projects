@@ -30,6 +30,7 @@ export class FlashService {
       ...this.flashs, {
         ...flash,
         flag : '',
+        quiz : '',
         url:'',
         show: false,
         _id: getRandomNumber(),    

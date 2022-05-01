@@ -43,6 +43,12 @@ question: {
     minlength: 0,
     maxlength:100,
     trim: true
+},quiz: {
+    type: String,
+    required: false,
+    minlength: 0,
+    maxlength:100,
+    trim: true
 },_id: {
     type: Number,
     required: false

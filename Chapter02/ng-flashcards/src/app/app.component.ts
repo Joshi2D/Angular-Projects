@@ -33,18 +33,20 @@ export class AppComponent implements OnInit{
   }];
   countryDropdown :IDropdownSettings;
   capitalDropdown :IDropdownSettings;
+  languageDropdown :IDropdownSettings;
   quizDropdown :IDropdownSettings;
+  currencyDropdown :IDropdownSettings;
 
   quizes = [];
   ngOnInit(){
     this.quizes = [
       { quizId: 1, quizName: 'Capital' },
       { quizId: 2, quizName: 'Flag' },
-      { quizId: 3, quizName: 'Language' },
-      { quizId: 4, quizName: 'Area' },
+      { quizId: 3, quizName: 'Currency' },
+      { quizId: 4, quizName: 'Language' },
     ];
 
-    
+
 
     this.selectedQuiz = [
       { quizId: 1, quizName: 'Capital' }
@@ -71,6 +73,20 @@ export class AppComponent implements OnInit{
       itemsShowLimit: 4,
       allowSearchFilter: true
     };
+    this.currencyDropdown = {
+      singleSelection: true,
+      idField: 'countryCode',
+      textField: 'countryCurrency',
+      itemsShowLimit: 4,
+      allowSearchFilter: true
+    };
+    this.languageDropdown = {
+      singleSelection: true,
+      idField: 'countryCode',
+      textField: 'countryLanguages',
+      itemsShowLimit: 4,
+      allowSearchFilter: true
+    };
   }
   filterdOptions = [];
   filterUsers() {
@@ -88,6 +104,7 @@ export class AppComponent implements OnInit{
     answer3: '',
     answer4: '',
     flag: '',
+    quiz: '',
     url :'',
     _id: null,
     show: false
@@ -101,9 +118,8 @@ export class AppComponent implements OnInit{
   countries;
   selectedCountry;
   question;
-  capitalsec = true;
   questionsec = true;
-  placeholder = "Capital";
+  quiz = "Capital";
   constructor(private flashService: FlashService, private countryService: CountryService  ) {
     this.flashs$ = this.flashService.flashs$;
     this.countries$ = this.countryService.countries$; 
@@ -116,12 +132,8 @@ export class AppComponent implements OnInit{
   }
 
   handleQuiz(value : any){
-    if(value.quizName != 'Capital'){
-       this.capitalsec = false;
-    }
-    else{
-      this.capitalsec = true;
-    }
+    this.quiz = value.quizName;
+    this.handleGet();
   }
 
   handleCreateQuestion(){
@@ -145,13 +157,15 @@ export class AppComponent implements OnInit{
             element.url = 'url(https://flagcdn.com/'+element.flag+'.svg)';
           }
         });
+        if(element.quiz == this.quiz )
         this.flashs.push(element);
       });
-      this.flashs$.next(this.flashs);
-      this.maxScore = this.flashs.length * 5;
+    this.flashs$.next(this.flashs);
+    this.maxScore = this.flashs.length * 5;
    });  
   }
   handleSubmit() {
+    this.flash.quiz = this.quiz
     this.flashService.addFlash(this.flash);
     this.handleClear();
     setTimeout(()=>{ 
@@ -162,13 +176,6 @@ export class AppComponent implements OnInit{
 
   j : any =0;
   handleOption(value : any){
-    // if(value == 'All'){
-    // this.option = value;
-    // }
-    // else{
-    //  this.option = value.countryName;
-    // }
-
    if(this.j == 1){
      this.flash.answer1 = value.countryCode.toLowerCase();
    }
@@ -204,6 +211,8 @@ export class AppComponent implements OnInit{
    }
   }
 
+  
+
 
 
   handleClear() {
@@ -218,6 +227,7 @@ export class AppComponent implements OnInit{
       answer3: '',
       answer4: '',
       flag: '',
+      quiz : '',
       url:'',
       _id: null,
       show: false
@@ -294,6 +304,7 @@ export class AppComponent implements OnInit{
     answer3: '',
     answer4: '',
     flag:'',
+    quiz : '',
     url:'',
     _id: null,
     show: false
@@ -330,7 +341,7 @@ export class AppComponent implements OnInit{
     countryName : '',
     countryRegion : '',
     countrySubregion : '',
-    countryLanguages : [],
+    countryLanguages : '',
     countryFlag : '',
     countryOrganizations : [],
     countryPopulation : null,
@@ -349,24 +360,25 @@ this.countryService.get().subscribe((response : any)=>{
       country.countrySubregion = response[index].subregion;
       country.countryArea = response[index].area;
       country.countryPopulation = response[index].population;
-      country.countryCurrency = response[index].demonym;
+      if(response[index].currencies != undefined)
+      country.countryCurrency = response[index].currencies[0].name +' '+ response[index].currencies[0].symbol;
       country.countryFlag = response[index].flag;
       if(response[index].borders != undefined){
       Object.keys(response[index].borders).forEach(function(i){
           country.countryNeighbours.push(response[index].borders[i]);
        });}
-      if(response[index].languages != undefined){
-       Object.keys(response[index].languages).forEach(function(i){
-          country.countryLanguages.push(response[index].languages[i]);
-       });}
-      if(response[index].regionalBlocs != undefined){
-        Object.keys(response[index].regionalBlocs).forEach(function(i){
-           country.countryLanguages.push(response[index].regionalBlocs[i]);
-      });}
+      // if(response[index].languages != undefined){
+      //  Object.keys(response[index].languages).forEach(function(i){
+          country.countryLanguages=(response[index].languages[0].name);
+       //});}
+      // if(response[index].regionalBlocs != undefined){
+      //   Object.keys(response[index].regionalBlocs).forEach(function(i){
+      //      country.countryLanguages.push(response[index].regionalBlocs[i]);
+      // });}
      
       let count = Object.assign({}, JSON.parse(JSON.stringify(country)));
       countries.push(count);
-      
+      //country.countryLanguages.length = 0;
   });
   
   this.countries = countries;

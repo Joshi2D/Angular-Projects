@@ -7,6 +7,7 @@ export interface IFlash {
   answer4: string;
   show: boolean;
   flag : string;
+  quiz : string;
   url : string;
   _id: number;
   remembered?: 'correct' | 'incorrect';

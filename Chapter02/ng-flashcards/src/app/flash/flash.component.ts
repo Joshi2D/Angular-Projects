@@ -20,13 +20,14 @@ export class FlashComponent {
     answer3: '',
     answer4: '',
     flag : '',
+    quiz : '',
     url:'',
     _id: 0,
     show: false,
   };
   @Input() flag : string;
   @Input() url : string;
-  @Input() capitalsec : string;
+  @Input() quiz : string;
   clicked = false;
   @Output() toggleCard = new EventEmitter();
   @Output() delete = new EventEmitter();
