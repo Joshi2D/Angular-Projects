@@ -25,7 +25,7 @@ export class FlashService {
 }
 
 
-  addFlash(flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string, _id: number, show: boolean}) {
+  addFlash(flash: {question: string, answer: string, answer1: string[], answer2: string[],  answer3: string[],  answer4: string[], _id: number, show: boolean}) {
     this.flashs = [
       ...this.flashs, {
         ...flash,
@@ -63,7 +63,7 @@ export class FlashService {
     return this.WebAdminService.delete(`flashes/${id}`);
   }
 
-  updateFlash(id: number, flash: {question: string, answer: string, answer1: string, answer2: string,  answer3: string,  answer4: string, _id: number, show: boolean}, flashs : IFlash[]) {
+  updateFlash(id: number, flash: {question: string, answer: string, answer1: string[], answer2: string[],  answer3: string[],  answer4: string[], _id: number, show: boolean}, flashs : IFlash[]) {
     return this.WebAdminService.patch(`flashes/${id}`, {flash} );
   }
 

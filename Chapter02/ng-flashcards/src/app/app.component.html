@@ -60,8 +60,11 @@
     <span class="control" style ="display: inline-flex; align-items: center;">
       <input  [disabled]="flashForm.invalid" type="radio"  value ={{flash.answer1}} name="answer" #answerE1="ngModel" [ngClass]="{'is-danger': answerE1.invalid && !answerE1.pristine}" [(ngModel)]="flash.answer">
 	<div class="control">
-    <img *ngSwitchCase = "'Flag'" class="img-size" src="{{flash.answer1 ? 'https://flagcdn.com/'+flash.answer1+'.svg': 'https://flagcdn.com/aq.svg'}}">
-    <input style="margin-left:13px"*ngSwitchCase = "['Capital','Language','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1">
+    <img *ngSwitchCase = "'Flag'" class="img-size" src="{{flash.answer1  ? 'https://flagcdn.com/'+flash.answer1+'.svg': 'https://flagcdn.com/aq.svg'}}">
+      <input  style="margin-left:13px"*ngSwitchCase = "['Capital','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="flash.answer1"> 
+      <select  style="margin-left:13px"*ngSwitchCase = "'Language'" class="input" role ="menu" type="select" required  name="answer1" #answerEl="ngModel" [ngClass]="{'is-danger': answerEl.invalid && !answerEl.pristine}" [(ngModel)]="sel1">
+      <option *ngFor="let ans of flash.answer1" [value]="ans" selected="this.flash.answer1[0]">{{ans}}</option>
+    </select>
   </div>
 </span>
   </div>
@@ -70,7 +73,10 @@
       <input   [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer2}} name="answer" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer">
     <div class="control">
       <div class="background"><img *ngSwitchCase = "'Flag'" class="img-size" src="{{flash.answer2 ? 'https://flagcdn.com/'+flash.answer2+'.svg': 'https://flagcdn.com/aq.svg'}}"></div>
-      <input style="margin-left:13px" *ngSwitchCase = "['Capital','Language','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
+      <input style="margin-left:13px" *ngSwitchCase = "['Capital','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="flash.answer2">
+      <select  style="margin-left:13px"*ngSwitchCase = "'Language'" class="input" type="select" required  name="answer2" #answerE2="ngModel" [ngClass]="{'is-danger': answerE2.invalid && !answerE2.pristine}" [(ngModel)]="sel2">
+        <option *ngFor="let ans of flash.answer2" [value]="ans" selected="this.flash.answer2[0]">{{ans}}</option>
+      </select>
     </div>
   </span>
   </div>
@@ -79,8 +85,11 @@
       <input   [disabled]="flashForm.invalid" type="radio" value ={{flash.answer3}} name="answer" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer">
     <div class="control">
       <img *ngSwitchCase = "'Flag'" class="img-size" src="{{flash.answer3 ? 'https://flagcdn.com/'+flash.answer3+'.svg': 'https://flagcdn.com/aq.svg'}}">
-      <input  style="margin-left:13px" *ngSwitchCase = "['Capital','Language','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
-  </div>
+      <input  style="margin-left:13px" *ngSwitchCase = "['Capital','Currency'].includes(quiz) ? quiz : ''" required class="input" type="text" name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="flash.answer3">
+      <select  style="margin-left:13px"*ngSwitchCase = "'Language'" class="input" type="select" required  name="answer3" #answerE3="ngModel" [ngClass]="{'is-danger': answerE3.invalid && !answerE3.pristine}" [(ngModel)]="sel3">
+        <option *ngFor="let ans of flash.answer3" [value]="ans" selected="this.flash.answer3[0]">{{ans}}</option>
+      </select> 
+    </div>
 </span>
   </div>
   <div class="field">
@@ -88,10 +97,14 @@
       <input  [disabled]="flashForm.invalid"  type="radio" value ={{flash.answer4}} name="answer" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer">
     <div class="control">
       <img *ngSwitchCase = "'Flag'" class="img-size" src="{{flash.answer4 ? 'https://flagcdn.com/'+flash.answer4+'.svg': 'https://flagcdn.com/aq.svg'}}">
-      <input  style="margin-left:13px" *ngSwitchCase = "['Capital','Language','Currency'].includes(quiz) ? quiz : ''"required class="input" type="text" name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer4">
+      <input  style="margin-left:13px" *ngSwitchCase = "['Capital','Currency'].includes(quiz) ? quiz : ''"required class="input" type="text" name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="flash.answer4">
+      <select  style="margin-left:13px"*ngSwitchCase = "'Language'" class="input" type="select" required  name="answer4" #answerE4="ngModel" [ngClass]="{'is-danger': answerE4.invalid && !answerE4.pristine}" [(ngModel)]="sel4">
+        <option *ngFor="let ans of flash.answer4" [value]="ans" selected="this.flash.answer4[0]">{{ans}}</option>
+      </select>
     </div>
   </span>
   </div>
+
   <button *ngIf="editing; else submitBtn" class="button is-primary" type="submit" (click)="handleUpdate()" [disabled]="flashForm.invalid">Update</button>
   <ng-template #submitBtn>
 <button  class="button is-primary" type="submit" (click)="handleSubmit()" [disabled]="flashForm.invalid">Submit</button>
@@ -136,7 +149,7 @@
         [settings]="capitalDropdown"
         [data]="countries"
         [(ngModel)]="selectedCapital"
-        (onSelect)="handleCapital($event)"
+        (onSelect)="handleAnswers($event.countryCapital)"
       >
       </ng-multiselect-dropdown>
     </div>
@@ -146,7 +159,7 @@
         [settings]="languageDropdown"
         [data]="countries"
         [(ngModel)]="selectedLanguage"
-        (onSelect)="handleCapital($event)"
+        (onSelect)="handleAnswers($event.countryLanguages)"
       >
       </ng-multiselect-dropdown>
     </div>
@@ -156,32 +169,16 @@
         [settings]="currencyDropdown"
         [data]="countries"
         [(ngModel)]="selectedCurrency"
-        (onSelect)="handleCapital($event)"
+        (onSelect)="handleAnswers($event.countryCurrency)"
       >
       </ng-multiselect-dropdown>
     </div>
     <div *ngSwitchCase = "'Flag'" class="column is-2.5">
     </div>
   <div  class="column is-1">
-       <!-- <div class="country">
-        <select (ngModelChange) = "handleOption($event)" class="segments" [(ngModel)] = "selectedItem">
-          <option [ngValue]="'All'" selected>All</option>
-          <option [ngValue] = "'Capital'">Capital</option>
-          <option [ngValue] = "Language">Language</option>
-          <option [ngValue] = "'Flag'">Flag</option>
-          </select>
-        </div> -->
   </div> 
-      </div>
-</td>
-<!-- <td class="column">
-  <div class="score" >
-    <app-score
-    [totalCount] = "maxScore"
-    [yourCount] = "yourScore"
-    ></app-score>
   </div>
-</td> -->
+</td>
 </tr>
 </table>
 <br>

@@ -2,7 +2,7 @@ export interface ICountry {
 countryName : string;
 countryRegion : string;
 countrySubregion : string;
-countryLanguages : string;
+countryLanguages : string[];
 countryFlag : string;
 countryOrganizations : IOrganization[];
 countryPopulation : number; 

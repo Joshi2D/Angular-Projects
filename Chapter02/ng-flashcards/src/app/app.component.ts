@@ -25,7 +25,7 @@ export class AppComponent implements OnInit{
   yourScore = 0;
   option : string = '';
   countryName = '';
-
+  currency;
   selectedQuiz = [];
   flags = [{
     flagId:'',
@@ -99,10 +99,10 @@ export class AppComponent implements OnInit{
   flash = {
     question: '',
     answer: '',
-    answer1: '',
-    answer2: '',
-    answer3: '',
-    answer4: '',
+    answer1: [''],
+    answer2: [''],
+    answer3: [''],
+    answer4: [''],
     flag: '',
     quiz: '',
     url :'',
@@ -193,21 +193,29 @@ export class AppComponent implements OnInit{
   }
   this.j++;
   }
-
+  sel1 : string;
+  sel2 : string;
+  sel3 : string;
+  sel4 : string;
   i : any =0;
-  handleCapital(value : any){
+  handleAnswers(value : any){
    this.i++;
    if(this.i == 1){
-     this.flash.answer1 = value.countryCapital;
+     this.flash.answer1 = value;
+     this.sel1 = this.flash.answer1[0];
    }
    if(this.i == 2){
-    this.flash.answer2 = value.countryCapital;
+    this.flash.answer2 = value;
+    this.sel2 = this.flash.answer2[0];
    }
    if(this.i == 3){
-    this.flash.answer3 = value.countryCapital;
+    this.flash.answer3 = value;
+    this.sel3 = this.flash.answer3[0];
+
    }
    if(this.i == 4){
-    this.flash.answer4 = value.countryCapital;
+    this.flash.answer4 = value;
+    this.sel4 = this.flash.answer4[0];
    }
   }
 
@@ -222,16 +230,16 @@ export class AppComponent implements OnInit{
     this.flash = {
       question: '',
       answer: '',
-      answer1: '',
-      answer2: '',
-      answer3: '',
-      answer4: '',
+      answer1: null,
+      answer2: null,
+      answer3: null,
+      answer4: null,
       flag: '',
-      quiz : '',
-      url:'',
+      quiz: '',
+      url :'',
       _id: null,
       show: false
-    }; 
+    };
 
     if(this.flashForm)
     this.flashForm.reset();
@@ -299,10 +307,10 @@ export class AppComponent implements OnInit{
    this.flash = {
     question: '',
     answer: '',
-    answer1: '',
-    answer2: '',
-    answer3: '',
-    answer4: '',
+    answer1: [],
+    answer2: [],
+    answer3: [],
+    answer4: [],
     flag:'',
     quiz : '',
     url:'',
@@ -341,7 +349,7 @@ export class AppComponent implements OnInit{
     countryName : '',
     countryRegion : '',
     countrySubregion : '',
-    countryLanguages : '',
+    countryLanguages : [],
     countryFlag : '',
     countryOrganizations : [],
     countryPopulation : null,
@@ -360,17 +368,18 @@ this.countryService.get().subscribe((response : any)=>{
       country.countrySubregion = response[index].subregion;
       country.countryArea = response[index].area;
       country.countryPopulation = response[index].population;
-      if(response[index].currencies != undefined)
-      country.countryCurrency = response[index].currencies[0].name +' '+ response[index].currencies[0].symbol;
+      if(response[index].currencies != undefined){
+      country.countryCurrency = response[index].currencies[0].name.split(' ').pop() +' '+ response[index].currencies[0].symbol;
+      }
       country.countryFlag = response[index].flag;
       if(response[index].borders != undefined){
       Object.keys(response[index].borders).forEach(function(i){
           country.countryNeighbours.push(response[index].borders[i]);
        });}
-      // if(response[index].languages != undefined){
-      //  Object.keys(response[index].languages).forEach(function(i){
-          country.countryLanguages=(response[index].languages[0].name);
-       //});}
+       if(response[index].languages != undefined){
+        Object.keys(response[index].languages).forEach(function(i){
+          country.countryLanguages.push(response[index].languages[i].name);
+       });}
       // if(response[index].regionalBlocs != undefined){
       //   Object.keys(response[index].regionalBlocs).forEach(function(i){
       //      country.countryLanguages.push(response[index].regionalBlocs[i]);
@@ -378,7 +387,7 @@ this.countryService.get().subscribe((response : any)=>{
      
       let count = Object.assign({}, JSON.parse(JSON.stringify(country)));
       countries.push(count);
-      //country.countryLanguages.length = 0;
+      country.countryLanguages.length = 0;
   });
   
   this.countries = countries;

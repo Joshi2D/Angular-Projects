@@ -14,25 +14,25 @@ question: {
     maxlength:100,
     trim: true
 },answer1: {
-    type: String,
+    type: Object,
     required: false,
     minlength: 0,
     maxlength:100,
     trim: true
 },answer2: {
-    type: String,
+    type: Object,
     required: false,
     minlength: 0,
     maxlength:100,
     trim: true
-},answer3: {
-    type: String,
+},answer3:{
+    type: Object,
     required: false,
     minlength: 0,
     maxlength:100,
     trim: true
 },answer4: {
-    type: String,
+    type: Object,
     required: false,
     minlength: 0,
     maxlength:100,

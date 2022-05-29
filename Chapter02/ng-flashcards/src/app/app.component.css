@@ -26,7 +26,9 @@ a{
 a.navbar-item {
     display: inherit !important;
 }
-
+select{
+   width:214px;
+}
 .img-size{
   width:23.5%;
   max-width:23.5%;
